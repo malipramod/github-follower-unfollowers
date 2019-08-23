@@ -1,63 +1,60 @@
 import React, { Component } from 'react';
-import axios from '../../shared/axios';
-import Followers from './followers/Followers';
+// import axios from '../../shared/axios';
+import GitHubApi from '../../shared/github-api';
+// import Grid from './Grid/Grid';
 class User extends Component {
     state = {
         followers: [],
         following: [],
         notFollowers: [],
         notFollowing: [],
+        error: false,
+        errorMessage:{},
         compType: 0
     }
+    itemToShow = "";
     getUserData = (event) => {
         event.preventDefault();
         const username = this.refs.username.value;
-        axios.get(`users/${username}/followers`)
-            .then(resp => {
+        let gitHubApi = new GitHubApi();
+        gitHubApi.getAllFollowers(username, 'followers')
+            .then(followersResp => {
+                gitHubApi.getAllFollowers(username, 'following')
+                    .then(followingResp => {
+                        this.setState({
+                            followers: followersResp,
+                            following: followingResp,
+                            error:false,
+                            errorMessage:{}
+                        }, () => this.switchView());
+                    }).catch(followingError => {
+                        this.setState({
+                            followers:[],
+                            following: [],
+                            error:true,
+                            errorMessage: followingError.response.data
+                        }, () => this.switchView());
+                    });
+            }).catch(followersErr => {
                 this.setState({
-                    followers: resp.data
+                    followers:[],
+                    following:[],
+                    error:true,
+                    errorMessage: followersErr.response.data
                 }, () => this.switchView());
             });
-        axios.get(`users/${username}/following`)
-            .then(resp => {
-                this.setState({
-                    following: resp.data
-                }, () => this.switchView());
-            });
+
+
     }
 
     filterNotFollowing = (follower, following) => {
-        let result = [];
-        for (let i = 0; i < follower.length; i++) {
-            let isFollowing = false;
-            for (let j = 0; j < following.length; j++) {
-                if (follower[i].login === following[j].login) {
-                    isFollowing = true;
-                    break;
-                }
-            }
-            if (!isFollowing)
-                result.push(follower[i]);
-        }
+        let gitHubApi = new GitHubApi();
+        let results = gitHubApi.filterNotFollowing(follower, following);
         this.setState({
-            notFollowing: result
+            notFollowing: results[0]
         });
-
-        let result2 = [];
-        for (let i = 0; i < following.length; i++) {
-            let isFollowing = false;
-            for (let j = 0; j < follower.length; j++) {
-                if (following[i].login === follower[j].login) {
-                    isFollowing = true;
-                    break;
-                }
-            }
-            if (!isFollowing)
-                result2.push(following[i]);
-        }
-
         this.setState({
-            notFollowers: result2
+            notFollowers: results[1]
         });
     }
 
@@ -65,37 +62,18 @@ class User extends Component {
         this.setState({
             compType: type
         }, () => this.switchView())
-
     }
-    itemToShow = "";
 
     switchView() {
-        switch (this.state.compType) {
-            case 0:
-                this.filterNotFollowing(this.state.followers, this.state.following);
-                this.itemToShow = <Followers data={this.state.followers}></Followers>;
-                break;
-            case 1:
-                this.filterNotFollowing(this.state.followers, this.state.following);
-                this.itemToShow = <Followers data={this.state.following}></Followers>;
-                break;
-            case 2:
-                this.filterNotFollowing(this.state.followers, this.state.following);
-                this.itemToShow = <Followers data={this.state.notFollowers}></Followers>;
-                break;
-            case 3:
-                this.filterNotFollowing(this.state.followers, this.state.following);
-                this.itemToShow = <Followers data={this.state.notFollowing}></Followers>;
-                break;
-            default:
-                this.itemToShow = ""
-        }
+        var gitHubApi = new GitHubApi();
+        this.itemToShow = gitHubApi.switchView(this.state);
+        this.filterNotFollowing(this.state.followers, this.state.following);
     }
     render() {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="h1">GitHub User Followers</div>
+                    <h1 className="text-center">GitHub User Followers - Insights</h1>
                 </div>
                 <div className="row">
                     <form onSubmit={this.getUserData.bind(this)}>
@@ -110,13 +88,13 @@ class User extends Component {
                         <a className={"nav-link " + (this.state.compType === 0 ? "active" : "")} href="/#" onClick={() => this.changeType(0)}>Followers({this.state.followers.length})</a>
                     </li>
                     <li className="nav-item mr-1">
-                        <a className={"nav-link "+ (this.state.compType === 1 ? "active" : "")} href="/#" onClick={() => this.changeType(1)}>Following({this.state.following.length})</a>
+                        <a className={"nav-link " + (this.state.compType === 1 ? "active" : "")} href="/#" onClick={() => this.changeType(1)}>Following({this.state.following.length})</a>
                     </li>
                     <li className="nav-item mr-1">
-                        <a className={"nav-link "+ (this.state.compType === 2 ? "active" : "")} href="/#" onClick={() => this.changeType(2)}>Non-Followers({this.state.notFollowers.length})</a>
+                        <a className={"nav-link " + (this.state.compType === 2 ? "active" : "")} href="/#" onClick={() => this.changeType(2)}>Non-Followers({this.state.notFollowers.length})</a>
                     </li>
                     <li className="nav-item mr-1">
-                        <a className={"nav-link "+ (this.state.compType === 3 ? "active" : "")} href="/#" onClick={() => this.changeType(3)}>Not-Following({this.state.notFollowing.length})</a>
+                        <a className={"nav-link " + (this.state.compType === 3 ? "active" : "")} href="/#" onClick={() => this.changeType(3)}>Not-Following({this.state.notFollowing.length})</a>
                     </li>
                 </div>
                 <div>

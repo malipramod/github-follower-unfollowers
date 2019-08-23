@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import userNotFound from '../../../media/404.PNG'
 
-
-class Followers extends Component {
+class Grid extends Component {
     render() {
-        if (this.props.data.length <= 0) {
-            return (<div>No Data</div>)
+        if (this.props.error) {
+            return (
+                <div>
+                    <a href={this.props.errorMessage.documentation_url} target="_blank" rel="noopener noreferrer">
+                        <h2 className="text-danger text-center">{this.props.errorMessage.message}</h2>
+                        <img className="w-100" src={userNotFound} alt="404"></img>                    
+                    </a>
+                </div>
+            )
         } else {
             return (
                 <div className="row">{
@@ -24,4 +31,4 @@ class Followers extends Component {
     }
 }
 
-export default Followers;
+export default Grid;
