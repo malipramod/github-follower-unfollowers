@@ -14,7 +14,7 @@ class Grid extends Component {
             )
         } else {
             return (
-                <div className="row">{
+                <div className="row" style={{paddingLeft:15}}>{
                     this.props.data.map(user =>
                         <div className="card col-sm-3 p-2" key={user.login}>
                             <img className="card-img-top w-100" src={user.avatar_url} alt={user.login}></img>

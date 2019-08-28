@@ -1,3 +1,2 @@
-export const username = "malipramod";
-export const defaultPageSize = 10;
+export const defaultPageSize = 100;
 export let defaultPageNo = 1;

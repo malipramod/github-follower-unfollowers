@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
 
-import User from './containers/user/User';
+import Insight from './containers/Insight/Insight';
 function App() {
   return (
     <div>
-      <User></User>
+      <Insight></Insight>
     </div>
   );
 }

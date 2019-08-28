@@ -1,7 +1,7 @@
 import React from 'react';
 
 import axios from './axios';
-import Grid from '../containers/user/Grid/Grid';
+import Grid from '../containers/Insight/Grid/Grid';
 import { defaultPageNo,defaultPageSize } from './config';
 class GitHubApi {
     // defaultPageSize = 10;
@@ -39,6 +39,11 @@ class GitHubApi {
                 return this.allFollowing.flat(Infinity);
         }
         return this.executeAPI(uri,defaultPageSize, page,follow);
+    }
+
+    async getUserInfo(username){
+        const userInfo = await axios.get(`users/${username}`);
+        return userInfo.data;
     }
 
     /**
