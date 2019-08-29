@@ -1,7 +1,7 @@
 import React from 'react';
 
 import axios from './axios';
-import Grid from '../containers/Insight/Grid/Grid';
+import Grid from '../components/Grid/Grid';
 import { defaultPageNo,defaultPageSize } from './config';
 class GitHubApi {
     // defaultPageSize = 10;

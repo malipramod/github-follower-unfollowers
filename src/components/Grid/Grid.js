@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import userNotFound from '../../../media/404.PNG'
+import React from 'react';
+import userNotFound from '../../media/404.PNG'
 
-class Grid extends Component {
-    render() {
-        if (this.props.error) {
+function grid (props){
+        if (props.error) {
             return (
                 <div>
-                    <a href={this.props.errorMessage.documentation_url} target="_blank" rel="noopener noreferrer">
-                        <h2 className="text-danger text-center">{this.props.errorMessage.message}</h2>
+                    <a href={props.errorMessage.documentation_url} target="_blank" rel="noopener noreferrer">
+                        <h2 className="text-danger text-center">{props.errorMessage.message}</h2>
                         <img className="w-100" src={userNotFound} alt="404"></img>                    
                     </a>
                 </div>
@@ -15,7 +14,7 @@ class Grid extends Component {
         } else {
             return (
                 <div className="row" style={{paddingLeft:15}}>{
-                    this.props.data.map(user =>
+                    props.data.map(user =>
                         <div className="card col-sm-3 p-2" key={user.login}>
                             <img className="card-img-top w-100" src={user.avatar_url} alt={user.login}></img>
                             <div className="card-body">
@@ -29,6 +28,6 @@ class Grid extends Component {
             )
         }
     }
-}
 
-export default Grid;
+
+export default grid;

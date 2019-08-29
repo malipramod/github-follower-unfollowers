@@ -8,7 +8,7 @@ const userInfo = (props) => {
                 <img className="card-img-top" src={props.userData.avatar_url} alt={props.userData.login}></img>
                 <div className="card-body">
                     <div className="row">
-                        <span className="col-5"></span>
+                        <span className="col-4"></span>
                         <span className="col-1">
                             <a href={props.userData.html_url} target="_blank" rel="noopener noreferrer" title="Website">
                                 <FontAwesomeIcon icon={faCode} size="1x" title="Github Profile" />
