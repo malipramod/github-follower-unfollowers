@@ -1,5 +1,5 @@
 import React from 'react';
-import { faLocationArrow, faUserPlus, faUserClock, faCalendar, faCalendarCheck, faGlobe,faCode } from "@fortawesome/free-solid-svg-icons";
+import { faLocationArrow, faUserPlus, faUserClock, faCalendar, faCalendarCheck, faGlobe, faCode, faBuilding } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const userInfo = (props) => {
     return (
@@ -8,12 +8,19 @@ const userInfo = (props) => {
                 <img className="card-img-top" src={props.userData.avatar_url} alt={props.userData.login}></img>
                 <div className="card-body">
                     <div className="row">
-                        <a style={{ paddingLeft: "40%" }} href={props.userData.html_url} target="_blank" rel="noopener noreferrer" title="Website">
-                            <FontAwesomeIcon icon={faCode} size="1x" title="Github Profile" />
-                        </a>
-                        <a style={{ paddingLeft: "5%" }} href={props.userData.blog} target="_blank" rel="noopener noreferrer" title="Website">
-                            <FontAwesomeIcon icon={faGlobe} size="1x" title="Visit Website" />
-                        </a>
+                        <span className="col-5"></span>
+                        <span className="col-1">
+                            <a href={props.userData.html_url} target="_blank" rel="noopener noreferrer" title="Website">
+                                <FontAwesomeIcon icon={faCode} size="1x" title="Github Profile" />
+                            </a>                            
+                        </span>
+                        <div className="col-1">
+                        <a href={props.userData.blog} target="_blank" rel="noopener noreferrer" title="Website">
+                                <FontAwesomeIcon icon={faGlobe} size="1x" title="Visit Website" />
+                            </a>
+                        </div>
+                        <span className="col-5"></span>
+
                         <h3 className="col-12 text-center">{props.userData.name}</h3>
                     </div>
                     <div className="row">
@@ -21,16 +28,21 @@ const userInfo = (props) => {
                         <span className="col-10"><FontAwesomeIcon icon={faLocationArrow} size="1x" title="Location" /> {props.userData.location}</span>
                         <span className="col-1"></span>
                     </div>
+                    <div className="row">
+                        <span className="col-1"></span>
+                        <span className="col-10"><FontAwesomeIcon icon={faBuilding} size="1x" title="Company" /> {props.userData.company}</span>
+                        <span className="col-1"></span>
+                    </div>
                     <hr></hr>
                     <div className="row">
                         <span className="col-1"></span>
                         <span className="col-5" >
-                            <a href={props.userData.html_url+'?tab=followers'} target="_blank" rel="noopener noreferrer">
-                            <FontAwesomeIcon icon={faUserPlus} size="1x" title="Followers" /></a> {props.userData.followers}
+                            <a href={props.userData.html_url + '?tab=followers'} target="_blank" rel="noopener noreferrer">
+                                <FontAwesomeIcon icon={faUserPlus} size="1x" title="Followers" /></a> {props.userData.followers}
                         </span>
                         <span className="col-5" >
-                            <a href={props.userData.html_url+'?tab=following'} target="_blank" rel="noopener noreferrer">
-                            <FontAwesomeIcon icon={faUserClock} size="1x" title="Following" /></a> {props.userData.following}
+                            <a href={props.userData.html_url + '?tab=following'} target="_blank" rel="noopener noreferrer">
+                                <FontAwesomeIcon icon={faUserClock} size="1x" title="Following" /></a> {props.userData.following}
                         </span>
                         <span className="col-1"></span>
                     </div>
