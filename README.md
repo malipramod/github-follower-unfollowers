@@ -8,4 +8,4 @@ Build with ReactJS and uses [GitHub's APIs](https://developer.github.com/v3/). A
 
 ## Hosting
 
-App is hosted on [Netlify](https://www.netlify.com/) - [Open App](https:/github-follower-unfollowers.netlify.com)
+App is hosted on [Netlify](https://www.netlify.com/)
